@@ -211,6 +211,56 @@
     .btn-confirm { background: var(--accent); border: none; color: #111; }
     .btn-confirm:hover { background: var(--accent2); }
 
+    /* PRODUCT DETAIL MODAL */
+    .detail-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 350;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .25s; padding: 16px;
+    }
+    .detail-overlay.open { opacity: 1; pointer-events: all; }
+    .detail-modal {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+      width: min(780px, 100%); max-height: 92vh; overflow-y: auto;
+      display: flex; position: relative;
+      transform: scale(.96); transition: transform .25s;
+    }
+    .detail-overlay.open .detail-modal { transform: scale(1); }
+    .detail-close {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(0,0,0,.6); border: none; color: #fff;
+      width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+      font-size: 15px; display: flex; align-items: center; justify-content: center;
+      z-index: 5; transition: background .2s;
+    }
+    .detail-close:hover { background: rgba(239,68,68,.85); }
+    .detail-img-panel {
+      width: 360px; min-height: 460px; background: var(--surface2);
+      border-radius: 18px 0 0 18px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: zoom-in;
+    }
+    .detail-img-panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .detail-img-panel .detail-fallback-icon { font-size: 100px; }
+    .detail-info-panel { flex: 1; padding: 36px 28px; display: flex; flex-direction: column; }
+    .detail-badge-tag { display: inline-block; margin-bottom: 14px; }
+    .detail-liga-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
+    .detail-prod-name { font-size: 26px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
+    .detail-prod-desc { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+    .detail-prod-price { font-size: 34px; font-weight: 900; color: var(--accent); margin-bottom: 22px; }
+    .detail-prod-price span { font-size: 14px; font-weight: 400; color: var(--muted); }
+    .detail-size-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
+    .detail-add-btn {
+      width: 100%; background: var(--accent); color: #111; border: none; padding: 15px;
+      border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all .2s; margin-top: auto;
+    }
+    .detail-add-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+    @media (max-width: 620px) {
+      .detail-modal { flex-direction: column; }
+      .detail-img-panel { width: 100%; min-height: 260px; border-radius: 18px 18px 0 0; cursor: default; }
+      .detail-info-panel { padding: 20px 18px 24px; }
+      .detail-prod-name { font-size: 20px; }
+      .detail-prod-price { font-size: 26px; margin-bottom: 16px; }
+    }
+
     /* BANNER / FOOTER */
     .banner { background: linear-gradient(90deg,#f5c518,#e0a800); color: #111; text-align: center; padding: 12px 24px; font-weight: 700; font-size: 14px; letter-spacing: .5px; }
     footer { background: var(--surface); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
@@ -369,6 +419,27 @@
   </div>
 </div>
 
+<!-- PRODUCT DETAIL MODAL -->
+<div class="detail-overlay" id="detailOverlay" onclick="handleDetailBgClick(event)">
+  <div class="detail-modal" id="detailModal">
+    <button class="detail-close" onclick="closeDetailModal()">✕</button>
+    <div class="detail-img-panel" id="detailImgPanel" onclick="openFullImage()">
+      <img id="detailImg" src="" alt="" style="display:none"/>
+      <span id="detailFallbackIcon" class="detail-fallback-icon" style="display:none"></span>
+    </div>
+    <div class="detail-info-panel">
+      <div class="detail-badge-tag" id="detailBadgeTag"></div>
+      <div class="detail-liga-label" id="detailLigaLabel"></div>
+      <div class="detail-prod-name" id="detailProdName"></div>
+      <div class="detail-prod-desc" id="detailProdDesc"></div>
+      <div class="detail-prod-price" id="detailProdPrice"></div>
+      <div class="detail-size-label">Elegí tu talle</div>
+      <div class="sizes" id="detailSizes" style="margin-bottom:20px;"></div>
+      <button class="detail-add-btn" onclick="confirmAddFromDetail()">+ Agregar al carrito</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast">✅ Agregado al carrito</div>
 
 <!-- Supabase SDK -->
@@ -436,7 +507,7 @@
     }
     grid.innerHTML = list.map(p => `
       <div class="card" data-cat="${p.cat}">
-        <div class="card-img">
+        <div class="card-img" onclick="openProductDetail(${p.id})" style="cursor:zoom-in;">
           ${p.badge === 'hot' ? '<span class="badge-hot">🔥 Popular</span>' : p.badge === 'new' ? '<span class="badge-new">✨ Nuevo</span>' : ''}
           ${p.image ? `<img src="${p.image}" alt="${p.name}"/>` : `<span style="font-size:72px">${p.icon}</span>`}
         </div>
@@ -458,6 +529,71 @@
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderProducts(cat);
+  }
+
+  // ── PRODUCT DETAIL MODAL ──
+  let detailSelectedSize = null;
+  function openProductDetail(productId) {
+    const p = products.find(x => x.id === productId);
+    if (!p) return;
+    pendingProduct = p;
+    detailSelectedSize = null;
+    selectedSize = null;
+
+    document.getElementById('detailLigaLabel').textContent = p.liga;
+    document.getElementById('detailProdName').textContent = p.name;
+    document.getElementById('detailProdDesc').textContent = p.description || '';
+    document.getElementById('detailProdPrice').innerHTML = `$${p.price.toLocaleString('es-AR')} <span>ARS</span>`;
+
+    const badgeEl = document.getElementById('detailBadgeTag');
+    if (p.badge === 'hot') badgeEl.innerHTML = '<span class="badge-hot" style="position:static;display:inline-block;margin-bottom:6px;">🔥 Popular</span>';
+    else if (p.badge === 'new') badgeEl.innerHTML = '<span class="badge-new" style="position:static;display:inline-block;margin-bottom:6px;">✨ Nuevo</span>';
+    else badgeEl.innerHTML = '';
+
+    const imgEl = document.getElementById('detailImg');
+    const iconEl = document.getElementById('detailFallbackIcon');
+    if (p.image) {
+      imgEl.src = p.image; imgEl.alt = p.name;
+      imgEl.style.display = 'block'; iconEl.style.display = 'none';
+    } else {
+      imgEl.style.display = 'none';
+      iconEl.textContent = p.icon; iconEl.style.display = 'block';
+    }
+
+    document.getElementById('detailSizes').innerHTML = sizes.map(s =>
+      `<button class="size-opt" onclick="selectDetailSize('${s}', this)">${s}</button>`
+    ).join('');
+
+    document.getElementById('detailOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function selectDetailSize(size, btn) {
+    detailSelectedSize = size;
+    selectedSize = size;
+    document.querySelectorAll('#detailSizes .size-opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function closeDetailModal() {
+    document.getElementById('detailOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleDetailBgClick(e) {
+    if (e.target === document.getElementById('detailOverlay')) closeDetailModal();
+  }
+
+  function openFullImage() {
+    const src = document.getElementById('detailImg').src;
+    if (!src || document.getElementById('detailImg').style.display === 'none') return;
+    window.open(src, '_blank');
+  }
+
+  function confirmAddFromDetail() {
+    if (!detailSelectedSize) { alert('Seleccioná un talle primero ✋'); return; }
+    addToCart(pendingProduct, detailSelectedSize);
+    closeDetailModal();
   }
 
   // ── MODAL ──
