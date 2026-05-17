@@ -4,390 +4,535 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wing.Back | Camisetas de Fútbol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0e0e0e; --surface: #1a1a1a; --surface2: #242424;
-      --border: #2e2e2e; --accent: #f5c518; --accent2: #e0a800;
-      --text: #f0f0f0; --muted: #888; --wsp: #25D366; --radius: 12px;
+      --bg: #0a0a0a; --surface: #141414; --surface2: #1e1e1e;
+      --border: #2a2a2a; --accent: #f5c518; --accent2: #e0a800;
+      --accent-glow: rgba(245,197,24,.18); --text: #f0f0f0;
+      --muted: #888; --wsp: #25D366; --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
 
-    /* HEADER */
+    /* ── ANNOUNCE BAR ── */
+    .announce-bar { background: var(--accent); color: #111; overflow: hidden; height: 36px; display: flex; align-items: center; }
+    .announce-track { display: flex; animation: marquee 28s linear infinite; white-space: nowrap; }
+    .announce-item { padding: 0 36px; font-size: 12px; font-weight: 700; letter-spacing: .6px; flex-shrink: 0; }
+    .announce-item::before { content: '⚡ '; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ── HEADER ── */
     header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(14,14,14,.95); backdrop-filter: blur(12px);
+      background: rgba(10,10,10,.96); backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px;
+      padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 68px;
     }
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
     .logo-badge {
-      width: 40px; height: 40px; border-radius: 50%; background: #fff;
+      width: 42px; height: 42px; border-radius: 50%; background: var(--accent);
       display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 13px; color: #111; letter-spacing: -1px; border: 2px solid var(--accent);
+      font-weight: 900; font-size: 11px; color: #111; letter-spacing: -1px;
+      box-shadow: 0 0 20px rgba(245,197,24,.35);
     }
-    .logo-text { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+    .logo-text { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
     .logo-text span { color: var(--accent); }
-    nav { display: flex; gap: 8px; align-items: center; }
-    nav a { color: var(--muted); text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 8px; transition: all .2s; }
+    nav { display: flex; gap: 4px; align-items: center; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 14px; border-radius: 8px; transition: all .2s; }
     nav a:hover { color: var(--text); background: var(--surface2); }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .header-social { display: flex; gap: 6px; }
+    .header-social a {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); text-decoration: none; font-size: 17px; transition: all .2s;
+    }
+    .header-social a:hover { border-color: var(--accent); background: var(--accent-glow); }
     .cart-btn {
       position: relative; background: var(--accent); color: #111; border: none; cursor: pointer;
-      padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 14px;
-      display: flex; align-items: center; gap: 6px; transition: all .2s;
+      padding: 9px 20px; border-radius: 10px; font-weight: 700; font-size: 14px;
+      display: flex; align-items: center; gap: 8px; transition: all .2s;
+      box-shadow: 0 4px 14px rgba(245,197,24,.3); font-family: 'Inter', sans-serif;
     }
-    .cart-btn:hover { background: var(--accent2); transform: scale(1.03); }
+    .cart-btn:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,197,24,.4); }
     .cart-count {
-      position: absolute; top: -6px; right: -6px; background: #e33; color: #fff;
-      border-radius: 50%; width: 18px; height: 18px; font-size: 10px;
-      display: none; align-items: center; justify-content: center; font-weight: 700;
+      position: absolute; top: -7px; right: -7px; background: #e33; color: #fff;
+      border-radius: 50%; width: 20px; height: 20px; font-size: 10px;
+      display: none; align-items: center; justify-content: center; font-weight: 700; border: 2px solid var(--bg);
     }
 
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #0e0e0e 0%, #1a1218 50%, #0e0e0e 100%);
-      padding: 80px 24px; text-align: center; position: relative; overflow: hidden;
-    }
-    .hero::before {
+    /* ── CAROUSEL ── */
+    .carousel { position: relative; overflow: hidden; height: clamp(360px, 55vw, 560px); }
+    .carousel-track { display: flex; height: 100%; transition: transform .7s cubic-bezier(.77,0,.175,1); }
+    .slide { min-width: 100%; height: 100%; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .slide-1 { background: linear-gradient(135deg, #0a0a0a 0%, #1a0e00 45%, #0a0a0a 100%); }
+    .slide-2 { background: linear-gradient(135deg, #001433 0%, #002a5e 45%, #001433 100%); }
+    .slide-3 { background: linear-gradient(135deg, #0a0000 0%, #1c0000 45%, #0a0a0a 100%); }
+    .slide-4 { background: linear-gradient(135deg, #001a00 0%, #00260a 45%, #0a0a0a 100%); }
+    .slide::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(245,197,24,.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse 55% 75% at 75% 50%, rgba(245,197,24,.09) 0%, transparent 65%);
     }
-    .hero-tag {
-      display: inline-block; background: var(--accent); color: #111;
-      padding: 4px 14px; border-radius: 20px; font-size: 12px;
-      font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;
+    .slide-2::before { background: radial-gradient(ellipse 55% 75% at 75% 50%, rgba(50,120,255,.12) 0%, transparent 65%); }
+    .slide-3::before { background: radial-gradient(ellipse 55% 75% at 75% 50%, rgba(220,40,40,.12) 0%, transparent 65%); }
+    .slide-4::before { background: radial-gradient(ellipse 55% 75% at 75% 50%, rgba(37,211,102,.1) 0%, transparent 65%); }
+    .slide-deco {
+      position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: clamp(100px, 22vw, 240px);
+      opacity: .055; line-height: 1; user-select: none; letter-spacing: -4px;
     }
-    .hero h1 { font-size: clamp(36px,7vw,72px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; margin-bottom: 16px; }
-    .hero h1 span { color: var(--accent); }
-    .hero p { color: var(--muted); font-size: 18px; max-width: 480px; margin: 0 auto 36px; }
-    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .slide-content { position: relative; z-index: 2; max-width: 820px; padding: 0 60px; }
+    .slide-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent); color: #111;
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .slide-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(36px, 7.5vw, 78px);
+      font-weight: 700; line-height: .93; letter-spacing: -1px;
+      margin-bottom: 16px; text-transform: uppercase;
+    }
+    .slide-title .acc-y { color: var(--accent); }
+    .slide-title .acc-b { color: #5aabff; }
+    .slide-title .acc-r { color: #ff5555; }
+    .slide-title .acc-g { color: #25D366; }
+    .slide-sub { color: var(--muted); font-size: clamp(13px, 2vw, 17px); margin-bottom: 30px; max-width: 420px; line-height: 1.55; }
+    .slide-actions { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn-primary {
       background: var(--accent); color: #111; border: none; cursor: pointer;
-      padding: 14px 32px; border-radius: 10px; font-weight: 700; font-size: 16px;
-      transition: all .2s; text-decoration: none; display: inline-block;
+      padding: 14px 30px; border-radius: 10px; font-weight: 700; font-size: 15px;
+      transition: all .2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Inter', sans-serif; box-shadow: 0 4px 18px rgba(245,197,24,.3);
     }
-    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,197,24,.42); }
     .btn-ghost {
-      background: transparent; color: var(--text); border: 1.5px solid var(--border);
-      padding: 14px 32px; border-radius: 10px; font-weight: 600; font-size: 16px;
-      transition: all .2s; text-decoration: none; display: inline-block; cursor: pointer;
+      background: rgba(255,255,255,.07); color: var(--text); border: 1.5px solid rgba(255,255,255,.2);
+      padding: 14px 30px; border-radius: 10px; font-weight: 600; font-size: 15px;
+      transition: all .2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+      font-family: 'Inter', sans-serif; backdrop-filter: blur(6px);
     }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: rgba(245,197,24,.08); }
+    .carousel-prev, .carousel-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 10; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.13);
+      color: #fff; width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+      font-size: 20px; display: flex; align-items: center; justify-content: center;
+      transition: all .2s; backdrop-filter: blur(6px);
+    }
+    .carousel-prev { left: 18px; }
+    .carousel-next { right: 18px; }
+    .carousel-prev:hover, .carousel-next:hover { background: var(--accent); color: #111; border-color: var(--accent); }
+    .carousel-dots { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 4px; background: rgba(255,255,255,.3); cursor: pointer; transition: all .35s; }
+    .carousel-dot.active { background: var(--accent); width: 24px; }
 
-    /* FILTERS */
-    .filters {
-      padding: 32px 24px 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
-      max-width: 1200px; margin: 0 auto;
-    }
-    .filter-label { color: var(--muted); font-size: 13px; margin-right: 4px; }
+    /* ── FEATURES STRIP ── */
+    .features-strip { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .features-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: stretch; }
+    .feature-item { flex: 1; padding: 18px 22px; display: flex; align-items: center; gap: 14px; border-right: 1px solid var(--border); }
+    .feature-item:last-child { border-right: none; }
+    .feature-icon { font-size: 26px; flex-shrink: 0; }
+    .feature-text strong { font-size: 13px; font-weight: 700; display: block; margin-bottom: 2px; }
+    .feature-text span { font-size: 12px; color: var(--muted); }
+
+    /* ── FILTERS ── */
+    .filters-wrap { max-width: 1200px; margin: 0 auto; padding: 36px 24px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .filter-label { color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-right: 4px; }
     .filter-btn {
       background: var(--surface); border: 1.5px solid var(--border);
-      color: var(--muted); padding: 6px 16px; border-radius: 20px;
-      cursor: pointer; font-size: 13px; font-weight: 600; transition: all .2s;
+      color: var(--muted); padding: 7px 18px; border-radius: 20px;
+      cursor: pointer; font-size: 13px; font-weight: 600; transition: all .2s; font-family: 'Inter', sans-serif;
     }
-    .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #111; }
+    .filter-btn:hover { color: var(--text); border-color: rgba(245,197,24,.4); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #111; box-shadow: 0 2px 10px rgba(245,197,24,.22); }
 
-    /* GRID */
-    .section { max-width: 1200px; margin: 0 auto; padding: 0 24px 60px; }
-    .section-title {
-      font-size: 22px; font-weight: 800; margin-bottom: 24px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 20px; }
+    /* ── GRID ── */
+    .section { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+    .section-title { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 20px; }
 
-    /* SKELETON LOADER */
+    /* ── SKELETON ── */
     .skeleton { animation: pulse 1.5s ease-in-out infinite; }
-    .skeleton-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
-    }
-    .skeleton-img { height: 220px; background: var(--surface2); }
+    .skeleton-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .skeleton-img { height: 240px; background: var(--surface2); }
     .skeleton-body { padding: 16px; }
     .skeleton-line { height: 12px; background: var(--surface2); border-radius: 4px; margin-bottom: 10px; }
     .skeleton-line.short { width: 60%; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-    /* CARD */
-    .card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-      overflow: hidden; transition: all .25s; cursor: pointer; display: flex; flex-direction: column;
-    }
-    .card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(245,197,24,.1); }
-    .card-img {
-      height: 220px; background: var(--surface2); display: flex; align-items: center;
-      justify-content: center; font-size: 64px; position: relative; overflow: hidden;
-    }
-    .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .badge-new {
-      position: absolute; top: 10px; left: 10px; background: var(--accent); color: #111;
-      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
-      text-transform: uppercase; letter-spacing: 1px;
-    }
-    .badge-hot {
-      position: absolute; top: 10px; left: 10px; background: #e33; color: #fff;
-      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
-      text-transform: uppercase; letter-spacing: 1px;
-    }
-    .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
-    .card-liga { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .card-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .card-desc { color: var(--muted); font-size: 12px; margin-bottom: 12px; flex: 1; }
+    /* ── CARD ── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: all .3s; cursor: pointer; display: flex; flex-direction: column; }
+    .card:hover { border-color: rgba(245,197,24,.45); transform: translateY(-6px); box-shadow: 0 18px 50px rgba(0,0,0,.55), 0 0 0 1px rgba(245,197,24,.08); }
+    .card-img { height: 240px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 72px; position: relative; overflow: hidden; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .card:hover .card-img img { transform: scale(1.06); }
+    .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 55%); opacity: 0; transition: opacity .3s; }
+    .card:hover .card-overlay { opacity: 1; }
+    .zoom-hint { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,.65); color: #fff; padding: 4px 9px; border-radius: 6px; font-size: 10px; font-weight: 600; opacity: 0; transition: opacity .3s; backdrop-filter: blur(4px); }
+    .card:hover .zoom-hint { opacity: 1; }
+    .badge-new { position: absolute; top: 12px; left: 12px; background: var(--accent); color: #111; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; z-index: 2; }
+    .badge-hot { position: absolute; top: 12px; left: 12px; background: #e33; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; z-index: 2; }
+    .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+    .card-liga { color: var(--accent); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+    .card-name { font-family: 'Oswald', sans-serif; font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+    .card-desc { color: var(--muted); font-size: 12px; margin-bottom: 14px; flex: 1; line-height: 1.4; }
     .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .card-price { font-size: 20px; font-weight: 900; color: var(--accent); }
-    .card-price span { font-size: 12px; font-weight: 400; color: var(--muted); }
-    .add-btn {
-      background: var(--accent); color: #111; border: none; padding: 8px 14px;
-      border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all .2s; white-space: nowrap;
-    }
-    .add-btn:hover { background: var(--accent2); transform: scale(1.05); }
+    .card-price { font-size: 22px; font-weight: 900; color: var(--text); }
+    .card-price span { font-size: 11px; font-weight: 400; color: var(--muted); }
+    .add-btn { background: var(--accent); color: #111; border: none; padding: 9px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; transition: all .2s; white-space: nowrap; font-family: 'Inter', sans-serif; }
+    .add-btn:hover { background: var(--accent2); transform: scale(1.06); }
 
-    /* CART DRAWER */
+    /* ── WHY US ── */
+    .why-section { background: var(--surface); border-top: 1px solid var(--border); padding: 64px 24px; }
+    .why-inner { max-width: 1200px; margin: 0 auto; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 36px; }
+    .why-item { background: var(--surface2); padding: 30px 24px; border: 1px solid var(--border); transition: background .2s; }
+    .why-item:hover { background: #222; }
+    .why-icon { font-size: 30px; margin-bottom: 12px; }
+    .why-title { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .why-desc { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    /* ── INSTAGRAM CTA ── */
+    .ig-cta { background: linear-gradient(135deg, #6a11cb 0%, #c0392b 50%, #f39c12 100%); padding: 56px 24px; text-align: center; }
+    .ig-cta h2 { font-family: 'Oswald', sans-serif; font-size: clamp(28px,5vw,52px); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .ig-cta p { color: rgba(255,255,255,.82); font-size: 16px; margin-bottom: 30px; }
+    .ig-cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.15); color: #fff; text-decoration: none;
+      padding: 15px 36px; border-radius: 50px; font-weight: 700; font-size: 16px;
+      border: 2px solid rgba(255,255,255,.35); transition: all .25s; backdrop-filter: blur(8px);
+    }
+    .ig-cta-btn:hover { background: rgba(255,255,255,.28); transform: translateY(-3px); }
+
+    /* ── CART DRAWER ── */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
     .overlay.open { opacity: 1; pointer-events: all; }
-    .drawer {
-      position: fixed; right: 0; top: 0; bottom: 0; width: min(400px,100vw);
-      background: var(--surface); border-left: 1px solid var(--border); z-index: 201;
-      transform: translateX(100%); transition: transform .3s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column;
-    }
+    .drawer { position: fixed; right: 0; top: 0; bottom: 0; width: min(400px,100vw); background: var(--surface); border-left: 1px solid var(--border); z-index: 201; transform: translateX(100%); transition: transform .3s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; }
     .drawer.open { transform: translateX(0); }
     .drawer-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-    .drawer-header h2 { font-size: 18px; font-weight: 800; }
-    .close-btn {
-      background: var(--surface2); border: none; color: var(--text); width: 32px; height: 32px;
-      border-radius: 8px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: background .2s;
-    }
+    .drawer-header h2 { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: .5px; }
+    .close-btn { background: var(--surface2); border: none; color: var(--text); width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: background .2s; }
     .close-btn:hover { background: var(--border); }
     .drawer-items { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
     .drawer-empty { text-align: center; padding: 60px 20px; color: var(--muted); }
     .drawer-empty .empty-icon { font-size: 48px; margin-bottom: 12px; }
-    .cart-item { background: var(--surface2); border-radius: 10px; padding: 12px; display: flex; gap: 12px; align-items: center; }
+    .cart-item { background: var(--surface2); border-radius: 10px; padding: 12px; display: flex; gap: 12px; align-items: center; border: 1px solid var(--border); }
     .cart-item-icon { font-size: 32px; width: 48px; text-align: center; }
-    .cart-item-img { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .cart-item-img { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
     .cart-item-info { flex: 1; }
     .cart-item-name { font-size: 14px; font-weight: 700; }
     .cart-item-meta { font-size: 12px; color: var(--muted); }
     .cart-item-price { color: var(--accent); font-weight: 700; }
     .qty-ctrl { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-    .qty-btn {
-      background: var(--border); border: none; color: var(--text); width: 24px; height: 24px;
-      border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background .2s;
-    }
+    .qty-btn { background: var(--border); border: none; color: var(--text); width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background .2s; }
     .qty-btn:hover { background: var(--accent); color: #111; }
     .qty-val { font-size: 14px; font-weight: 700; min-width: 20px; text-align: center; }
     .rm-btn { background: none; border: none; color: #e55; cursor: pointer; font-size: 16px; padding: 4px; }
     .drawer-footer { padding: 20px; border-top: 1px solid var(--border); }
     .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; margin-bottom: 16px; }
     .total-row span:last-child { color: var(--accent); }
-    .wsp-btn {
-      width: 100%; background: var(--wsp); color: #fff; border: none; padding: 16px; border-radius: 10px;
-      font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all .2s;
-    }
+    .wsp-btn { width: 100%; background: var(--wsp); color: #fff; border: none; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all .2s; font-family: 'Inter', sans-serif; }
     .wsp-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
     .wsp-btn svg { width: 22px; height: 22px; fill: currentColor; }
 
-    /* SIZE MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 300;
-      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s;
-    }
+    /* ── SIZE MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 300; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-      padding: 28px; width: min(380px,92vw); transform: scale(.95); transition: transform .2s;
-    }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: min(380px,92vw); transform: scale(.95); transition: transform .2s; }
     .modal-overlay.open .modal { transform: scale(1); }
-    .modal h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+    .modal h3 { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px; }
     .modal .product-name { color: var(--accent); font-size: 14px; margin-bottom: 20px; }
     .sizes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-    .size-opt {
-      border: 1.5px solid var(--border); background: var(--surface2); color: var(--text);
-      padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all .2s;
-    }
+    .size-opt { border: 1.5px solid var(--border); background: var(--surface2); color: var(--text); padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all .2s; font-family: 'Inter', sans-serif; }
     .size-opt:hover, .size-opt.selected { border-color: var(--accent); background: var(--accent); color: #111; }
     .modal-actions { display: flex; gap: 10px; }
-    .modal-actions button { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all .2s; }
+    .modal-actions button { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif; }
     .btn-cancel { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
     .btn-cancel:hover { border-color: var(--accent); }
     .btn-confirm { background: var(--accent); border: none; color: #111; }
     .btn-confirm:hover { background: var(--accent2); }
 
-    /* PRODUCT DETAIL MODAL */
-    .detail-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 350;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity .25s; padding: 16px;
-    }
+    /* ── PRODUCT DETAIL MODAL ── */
+    .detail-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.86); z-index: 350; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s; padding: 16px; backdrop-filter: blur(4px); }
     .detail-overlay.open { opacity: 1; pointer-events: all; }
-    .detail-modal {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
-      width: min(780px, 100%); max-height: 92vh; overflow-y: auto;
-      display: flex; position: relative;
-      transform: scale(.96); transition: transform .25s;
-    }
-    .detail-overlay.open .detail-modal { transform: scale(1); }
-    .detail-close {
-      position: absolute; top: 14px; right: 14px;
-      background: rgba(0,0,0,.6); border: none; color: #fff;
-      width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
-      font-size: 15px; display: flex; align-items: center; justify-content: center;
-      z-index: 5; transition: background .2s;
-    }
+    .detail-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; width: min(820px, 100%); max-height: 92vh; overflow-y: auto; display: flex; position: relative; transform: scale(.96) translateY(8px); transition: transform .25s; }
+    .detail-overlay.open .detail-modal { transform: scale(1) translateY(0); }
+    .detail-close { position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,.6); border: none; color: #fff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; z-index: 5; transition: background .2s; }
     .detail-close:hover { background: rgba(239,68,68,.85); }
-    .detail-img-panel {
-      width: 360px; min-height: 460px; background: var(--surface2);
-      border-radius: 18px 0 0 18px; overflow: hidden;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: zoom-in;
-    }
+    .detail-img-panel { width: 380px; min-height: 480px; background: var(--surface2); border-radius: 20px 0 0 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: zoom-in; position: relative; }
     .detail-img-panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .detail-img-panel .detail-fallback-icon { font-size: 100px; }
-    .detail-info-panel { flex: 1; padding: 36px 28px; display: flex; flex-direction: column; }
+    .detail-zoom-badge { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,.7); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; backdrop-filter: blur(4px); }
+    .detail-info-panel { flex: 1; padding: 36px 32px; display: flex; flex-direction: column; }
     .detail-badge-tag { display: inline-block; margin-bottom: 14px; }
-    .detail-liga-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
-    .detail-prod-name { font-size: 26px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
-    .detail-prod-desc { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
-    .detail-prod-price { font-size: 34px; font-weight: 900; color: var(--accent); margin-bottom: 22px; }
+    .detail-liga-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 6px; }
+    .detail-prod-name { font-family: 'Oswald', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; margin-bottom: 10px; text-transform: uppercase; }
+    .detail-prod-desc { color: var(--muted); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+    .detail-prod-price { font-size: 36px; font-weight: 900; color: var(--accent); margin-bottom: 24px; }
     .detail-prod-price span { font-size: 14px; font-weight: 400; color: var(--muted); }
-    .detail-size-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
-    .detail-add-btn {
-      width: 100%; background: var(--accent); color: #111; border: none; padding: 15px;
-      border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all .2s; margin-top: auto;
-    }
+    .detail-size-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
+    .detail-add-btn { width: 100%; background: var(--accent); color: #111; border: none; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all .2s; margin-top: auto; font-family: 'Inter', sans-serif; box-shadow: 0 4px 16px rgba(245,197,24,.25); }
     .detail-add-btn:hover { background: var(--accent2); transform: translateY(-1px); }
     @media (max-width: 620px) {
       .detail-modal { flex-direction: column; }
-      .detail-img-panel { width: 100%; min-height: 260px; border-radius: 18px 18px 0 0; cursor: default; }
+      .detail-img-panel { width: 100%; min-height: 260px; border-radius: 20px 20px 0 0; cursor: default; }
       .detail-info-panel { padding: 20px 18px 24px; }
-      .detail-prod-name { font-size: 20px; }
-      .detail-prod-price { font-size: 26px; margin-bottom: 16px; }
+      .detail-prod-name { font-size: 24px; }
+      .detail-prod-price { font-size: 28px; margin-bottom: 16px; }
     }
 
-    /* BANNER / FOOTER */
-    .banner { background: linear-gradient(90deg,#f5c518,#e0a800); color: #111; text-align: center; padding: 12px 24px; font-weight: 700; font-size: 14px; letter-spacing: .5px; }
-    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
-    .footer-logo { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+    /* ── FOOTER ── */
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 52px 24px 28px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-logo { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
     .footer-logo span { color: var(--accent); }
-    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-    .footer-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .2s; }
-    .footer-links a:hover { color: var(--accent); }
-    .footer-social { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; }
-    .social-btn {
-      background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
-      padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; transition: all .2s;
-    }
-    .social-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.6; max-width: 220px; }
+    .footer-col h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; }
+    .footer-col a { display: block; color: var(--text); text-decoration: none; font-size: 14px; margin-bottom: 9px; transition: color .2s; }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-social-col { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .footer-social-btn { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 11px 18px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all .2s; }
+    .footer-social-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .footer-social-btn.wsp { }
+    .footer-social-btn.wsp:hover { border-color: var(--wsp); color: var(--wsp); background: rgba(37,211,102,.1); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border); padding-top: 22px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
     .footer-copy { color: var(--muted); font-size: 12px; }
 
-    /* TOAST */
-    .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-      background: var(--surface); border: 1px solid var(--accent); color: var(--text);
-      padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; z-index: 400;
-      transition: transform .3s; white-space: nowrap;
+    /* ── FLOATING WHATSAPP ── */
+    .float-wsp {
+      position: fixed; bottom: 26px; right: 26px; z-index: 500;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--wsp); color: #fff;
+      padding: 13px 20px; border-radius: 50px;
+      text-decoration: none; font-weight: 700; font-size: 14px;
+      box-shadow: 0 6px 24px rgba(37,211,102,.4);
+      transition: all .3s; animation: wspPulse 3s ease-in-out infinite;
     }
+    .float-wsp:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 32px rgba(37,211,102,.55); }
+    .float-wsp svg { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
+    @keyframes wspPulse { 0%,100%{ box-shadow: 0 6px 24px rgba(37,211,102,.4); } 50%{ box-shadow: 0 6px 30px rgba(37,211,102,.65); } }
+
+    /* ── TOAST ── */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); border: 1px solid var(--accent); color: var(--text); padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; z-index: 600; transition: transform .3s; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.5); }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .features-inner { flex-direction: column; }
+      .feature-item { border-right: none; border-bottom: 1px solid var(--border); padding: 14px 18px; }
+      .feature-item:last-child { border-bottom: none; }
+      .float-wsp span { display: none; }
+      .float-wsp { padding: 14px; border-radius: 50%; }
+      .slide-content { padding: 0 52px 0 20px; }
+    }
     @media (max-width: 600px) {
       nav a { display: none; }
-      .hero { padding: 48px 16px; }
-      .filters { padding: 20px 16px 8px; }
-      .section { padding: 0 16px 48px; }
+      .header-social { display: none; }
+      .section { padding: 0 16px 60px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<div class="banner">🚚 Envíos a todo el país · Consultá por tu camiseta favorita 🏆</div>
+<!-- ANNOUNCE BAR -->
+<div class="announce-bar">
+  <div class="announce-track">
+    <span class="announce-item">Envíos a todo el país</span>
+    <span class="announce-item">Camisetas calidad premium A+</span>
+    <span class="announce-item">Pedidos por WhatsApp</span>
+    <span class="announce-item">Nueva colección 2025/26</span>
+    <span class="announce-item">Cambios de talle sin problema</span>
+    <span class="announce-item">Argentina · Europa · Retros</span>
+    <span class="announce-item">Envíos a todo el país</span>
+    <span class="announce-item">Camisetas calidad premium A+</span>
+    <span class="announce-item">Pedidos por WhatsApp</span>
+    <span class="announce-item">Nueva colección 2025/26</span>
+    <span class="announce-item">Cambios de talle sin problema</span>
+    <span class="announce-item">Argentina · Europa · Retros</span>
+  </div>
+</div>
 
 <header>
   <a href="#" class="logo">
-    <div class="logo-badge">WbΔ</div>
+    <div class="logo-badge">WB</div>
     <span class="logo-text">wing<span>.</span>back</span>
   </a>
   <nav>
     <a href="#catalogo">Catálogo</a>
     <a href="#nosotros">Nosotros</a>
   </nav>
-  <button class="cart-btn" onclick="toggleCart()">
-    🛒 Carrito
-    <span class="cart-count" id="cartCount">0</span>
-  </button>
+  <div class="header-right">
+    <div class="header-social">
+      <a href="https://www.instagram.com/wing.back_/" target="_blank" title="Instagram">📸</a>
+      <a href="https://wa.me/5493435090803" target="_blank" title="WhatsApp">💬</a>
+    </div>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Carrito
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
 </header>
 
-<section class="hero">
-  <div class="hero-tag">⚽ Nueva colección 2025/26</div>
-  <h1>Usá la camiseta<br>de tu <span>equipo</span></h1>
-  <p>Camisetas de fútbol originales y réplicas premium. Nacionales e internacionales.</p>
-  <div class="hero-actions">
-    <a href="#catalogo" class="btn-primary">Ver catálogo</a>
-    <a href="https://www.instagram.com/wing.back" target="_blank" class="btn-ghost">📸 Instagram</a>
-  </div>
-</section>
+<!-- CAROUSEL -->
+<div class="carousel" id="carousel">
+  <div class="carousel-track" id="carouselTrack">
 
-<div class="filters" id="catalogo">
+    <div class="slide slide-1">
+      <div class="slide-deco">WB</div>
+      <div class="slide-content">
+        <div class="slide-tag">⚽ Nueva colección 2025/26</div>
+        <h1 class="slide-title">Usá la camiseta<br>de tu <span class="acc-y">equipo</span></h1>
+        <p class="slide-sub">Camisetas de fútbol originales y réplicas premium. Nacionales e internacionales. Talles S al XXL.</p>
+        <div class="slide-actions">
+          <a href="#catalogo" class="btn-primary">Ver catálogo →</a>
+          <a href="https://www.instagram.com/wing.back_/" target="_blank" class="btn-ghost">📸 Seguinos</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide slide-2">
+      <div class="slide-deco">ARG</div>
+      <div class="slide-content">
+        <div class="slide-tag">🏆 Campeones del mundo</div>
+        <h1 class="slide-title">Selección<br><span class="acc-b">Argentina</span> ⭐⭐⭐</h1>
+        <p class="slide-sub">La camiseta del tricampeonato. Viví cada partido con la 10 en el pecho. Qatar 2022.</p>
+        <div class="slide-actions">
+          <a href="#catalogo" class="btn-primary" onclick="filterByCategory('selecciones')">Ver selecciones →</a>
+          <a href="https://wa.me/5493435090803" target="_blank" class="btn-ghost">💬 Consultar</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide slide-3">
+      <div class="slide-deco">86</div>
+      <div class="slide-content">
+        <div class="slide-tag">⏪ Ediciones históricas</div>
+        <h1 class="slide-title">Retros<br><span class="acc-y">legendarias</span></h1>
+        <p class="slide-sub">Maradona México 86. River 96. Boca 2000. Las camisetas que hicieron historia, ahora en tu colección.</p>
+        <div class="slide-actions">
+          <a href="#catalogo" class="btn-primary" onclick="filterByCategory('retro')">Ver retros →</a>
+          <a href="https://www.instagram.com/wing.back_/" target="_blank" class="btn-ghost">📸 Ver más</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide slide-4">
+      <div class="slide-deco">📦</div>
+      <div class="slide-content">
+        <div class="slide-tag">🚚 Logística nacional</div>
+        <h1 class="slide-title">Envíos a<br><span class="acc-g">todo el país</span></h1>
+        <p class="slide-sub">Despachamos por Andreani y Correo Argentino. Pedí hoy y recibís en pocos días. Cambios sin vueltas.</p>
+        <div class="slide-actions">
+          <a href="https://wa.me/5493435090803?text=Hola!%20Quiero%20consultar%20sobre%20env%C3%ADos%20🚚" target="_blank" class="btn-primary">💬 Consultar envío</a>
+          <a href="#catalogo" class="btn-ghost">Ver catálogo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <button class="carousel-prev" onclick="carouselGo(-1)">‹</button>
+  <button class="carousel-next" onclick="carouselGo(1)">›</button>
+  <div class="carousel-dots" id="carouselDots"></div>
+</div>
+
+<!-- FEATURES STRIP -->
+<div class="features-strip">
+  <div class="features-inner">
+    <div class="feature-item"><div class="feature-icon">✅</div><div class="feature-text"><strong>Calidad A+</strong><span>Materiales premium, igual a las originales</span></div></div>
+    <div class="feature-item"><div class="feature-icon">🚚</div><div class="feature-text"><strong>Envío nacional</strong><span>Andreani y Correo Argentino</span></div></div>
+    <div class="feature-item"><div class="feature-icon">💬</div><div class="feature-text"><strong>Atención directa</strong><span>Respondemos por WhatsApp</span></div></div>
+    <div class="feature-item"><div class="feature-icon">🔄</div><div class="feature-text"><strong>Cambios sin costo</strong><span>Te ayudamos a cambiar el talle</span></div></div>
+  </div>
+</div>
+
+<!-- CATALOG -->
+<div class="filters-wrap" id="catalogo">
   <span class="filter-label">Filtrar:</span>
-  <button class="filter-btn active" onclick="filterProducts('todos', this)">Todos</button>
-  <button class="filter-btn" onclick="filterProducts('argentina', this)">🇦🇷 Argentina</button>
-  <button class="filter-btn" onclick="filterProducts('europa', this)">🌍 Europa</button>
-  <button class="filter-btn" onclick="filterProducts('retro', this)">⏪ Retro</button>
-  <button class="filter-btn" onclick="filterProducts('selecciones', this)">🏆 Selecciones</button>
+  <button class="filter-btn active" id="filter-todos" onclick="filterProducts('todos', this)">Todos</button>
+  <button class="filter-btn" id="filter-argentina" onclick="filterProducts('argentina', this)">🇦🇷 Argentina</button>
+  <button class="filter-btn" id="filter-europa" onclick="filterProducts('europa', this)">🌍 Europa</button>
+  <button class="filter-btn" id="filter-retro" onclick="filterProducts('retro', this)">⏪ Retro</button>
+  <button class="filter-btn" id="filter-selecciones" onclick="filterProducts('selecciones', this)">🏆 Selecciones</button>
 </div>
 
 <div class="section">
-  <div class="section-title">Catálogo</div>
-  <div class="grid" id="productGrid">
-    <!-- skeletons mientras carga -->
-    ${[...Array(8)].map(() => `
-      <div class="skeleton-card skeleton">
-        <div class="skeleton-img"></div>
-        <div class="skeleton-body">
-          <div class="skeleton-line short"></div>
-          <div class="skeleton-line"></div>
-          <div class="skeleton-line"></div>
-        </div>
-      </div>
-    `).join('')}
+  <div class="section-header">
+    <div class="section-title">Catálogo</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="grid" id="productGrid"></div>
+</div>
+
+<!-- WHY US -->
+<div class="why-section" id="nosotros">
+  <div class="why-inner">
+    <div class="section-header">
+      <div class="section-title">¿Por qué wing.back?</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="why-grid">
+      <div class="why-item"><div class="why-icon">✅</div><div class="why-title">Calidad premium</div><div class="why-desc">Materiales de primera, iguales a las originales. Sublimación de alta definición.</div></div>
+      <div class="why-item"><div class="why-icon">🚚</div><div class="why-title">Envío a todo el país</div><div class="why-desc">Despachamos por Correo Argentino y Andreani. Seguí tu paquete en tiempo real.</div></div>
+      <div class="why-item"><div class="why-icon">💬</div><div class="why-title">Atención por WhatsApp</div><div class="why-desc">Respondemos rápido, asesoramos en talles, colores y disponibilidad.</div></div>
+      <div class="why-item"><div class="why-icon">🔄</div><div class="why-title">Cambios sin problema</div><div class="why-desc">Si el talle no te queda, lo cambiamos. Sin burocracia, sin vueltas.</div></div>
+    </div>
   </div>
 </div>
 
-<div class="section" id="nosotros">
-  <div class="section-title">¿Por qué wing.back?</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;">
-      <div style="font-size:36px;margin-bottom:12px;">✅</div>
-      <div style="font-weight:700;margin-bottom:6px;">Calidad premium</div>
-      <div style="color:var(--muted);font-size:13px;">Materiales de primera calidad, iguales a las originales.</div>
-    </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;">
-      <div style="font-size:36px;margin-bottom:12px;">🚚</div>
-      <div style="font-weight:700;margin-bottom:6px;">Envío a todo el país</div>
-      <div style="color:var(--muted);font-size:13px;">Despachamos por correo argentino y Andreani.</div>
-    </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;">
-      <div style="font-size:36px;margin-bottom:12px;">💬</div>
-      <div style="font-weight:700;margin-bottom:6px;">Atención por WhatsApp</div>
-      <div style="color:var(--muted);font-size:13px;">Respondemos rápido y asesoramos en tu pedido.</div>
-    </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;">
-      <div style="font-size:36px;margin-bottom:12px;">🔄</div>
-      <div style="font-weight:700;margin-bottom:6px;">Cambios sin problema</div>
-      <div style="color:var(--muted);font-size:13px;">Te ayudamos a cambiar el talle si lo necesitás.</div>
-    </div>
-  </div>
+<!-- INSTAGRAM CTA -->
+<div class="ig-cta">
+  <h2>Seguinos en Instagram</h2>
+  <p>Nuevos modelos, promociones exclusivas y contenido del mundo del fútbol.</p>
+  <a class="ig-cta-btn" href="https://www.instagram.com/wing.back_/" target="_blank">📸 @wing.back_</a>
 </div>
 
 <footer>
-  <div class="footer-logo">wing<span>.</span>back</div>
-  <div class="footer-links">
-    <a href="#catalogo">Catálogo</a>
-    <a href="#nosotros">Nosotros</a>
-    <a href="https://www.instagram.com/wing.back" target="_blank">Instagram</a>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">wing<span>.</span>back</div>
+      <p>Camisetas de fútbol premium. Nacionales, internacionales y retros. Enviamos a todo el país.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explorar</h4>
+      <a href="#catalogo">Catálogo completo</a>
+      <a href="#catalogo" onclick="filterByCategory('argentina')">Argentina</a>
+      <a href="#catalogo" onclick="filterByCategory('europa')">Europa</a>
+      <a href="#catalogo" onclick="filterByCategory('retro')">Retros</a>
+      <a href="#nosotros">Sobre nosotros</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <div class="footer-social-col">
+        <a class="footer-social-btn" href="https://www.instagram.com/wing.back_/" target="_blank">📸 @wing.back_</a>
+        <a class="footer-social-btn wsp" href="https://wa.me/5493435090803" target="_blank">💬 WhatsApp directo</a>
+      </div>
+    </div>
   </div>
-  <div class="footer-social">
-    <a class="social-btn" href="https://www.instagram.com/wing.back" target="_blank">📸 @wing.back</a>
-    <a class="social-btn" href="https://wa.me/5493435090803" target="_blank">💬 WhatsApp</a>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 wing.back · Camisetas de fútbol premium</div>
+    <div class="footer-copy">Hecho con ❤️ para los del fútbol</div>
   </div>
-  <div class="footer-copy">© 2025 wing.back · Camisetas de fútbol</div>
 </footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="float-wsp" href="https://wa.me/5493435090803?text=Hola!%20Quiero%20consultar%20sobre%20camisetas%20%F0%9F%8E%BD" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span>Consultar</span>
+</a>
 
 <!-- CART DRAWER -->
 <div class="overlay" id="overlay" onclick="toggleCart()"></div>
@@ -426,6 +571,7 @@
     <div class="detail-img-panel" id="detailImgPanel" onclick="openFullImage()">
       <img id="detailImg" src="" alt="" style="display:none"/>
       <span id="detailFallbackIcon" class="detail-fallback-icon" style="display:none"></span>
+      <div class="detail-zoom-badge">🔍 Ver en grande</div>
     </div>
     <div class="detail-info-panel">
       <div class="detail-badge-tag" id="detailBadgeTag"></div>
@@ -442,10 +588,42 @@
 
 <div class="toast" id="toast">✅ Agregado al carrito</div>
 
-<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 <script>
+  // ── CAROUSEL ──
+  const SLIDE_COUNT = 4;
+  let currentSlide = 0;
+  let autoSlideTimer;
+
+  (function setupCarousel() {
+    const dots = document.getElementById('carouselDots');
+    for (let i = 0; i < SLIDE_COUNT; i++) {
+      const d = document.createElement('div');
+      d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => { goToSlide(i); resetAutoSlide(); };
+      dots.appendChild(d);
+    }
+    startAutoSlide();
+  })();
+
+  function goToSlide(n) {
+    currentSlide = ((n % SLIDE_COUNT) + SLIDE_COUNT) % SLIDE_COUNT;
+    document.getElementById('carouselTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+    document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+  }
+  function carouselGo(dir) { goToSlide(currentSlide + dir); resetAutoSlide(); }
+  function startAutoSlide() { autoSlideTimer = setInterval(() => goToSlide(currentSlide + 1), 5000); }
+  function resetAutoSlide() { clearInterval(autoSlideTimer); startAutoSlide(); }
+
+  // ── FILTER FROM CAROUSEL ──
+  function filterByCategory(cat) {
+    setTimeout(() => {
+      const btn = document.getElementById('filter-' + cat);
+      if (btn) { filterProducts(cat, btn); document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' }); }
+    }, 120);
+  }
+
   // ── SUPABASE INIT ──
   let db = null;
   try {
@@ -455,26 +633,26 @@
   } catch(e) {}
   const WA_NUMBER = (typeof WB_CONFIG !== 'undefined') ? WB_CONFIG.waNumber : '5493435090803';
 
-  // ── DEFAULT PRODUCTS (fallback sin Supabase) ──
+  // ── DEFAULT PRODUCTS ──
   const DEFAULT_PRODUCTS = [
-    {id:1,  name:"Boca Juniors",        liga:"Liga Profesional", cat:"argentina",  icon:"⚽", price:18000, badge:"hot", description:"Titular 2024/25 · Con detalles dorados"},
-    {id:2,  name:"River Plate",         liga:"Liga Profesional", cat:"argentina",  icon:"🔴", price:18000, badge:"",    description:"Titular 2024/25 · Franja clásica"},
-    {id:3,  name:"Racing Club",         liga:"Liga Profesional", cat:"argentina",  icon:"🔵", price:16500, badge:"new", description:"Campeón Copa Sudamericana 2024"},
-    {id:4,  name:"Independiente",       liga:"Liga Profesional", cat:"argentina",  icon:"🔴", price:15000, badge:"",    description:"Rey de copas · Rojo clásico"},
-    {id:5,  name:"San Lorenzo",         liga:"Liga Profesional", cat:"argentina",  icon:"🔵", price:15000, badge:"",    description:"Titular azulgrana 2024/25"},
-    {id:6,  name:"Selección Argentina", liga:"Selecciones",      cat:"selecciones",icon:"🇦🇷", price:20000, badge:"hot", description:"Campeón del Mundo Qatar 2022"},
-    {id:7,  name:"Brasil",              liga:"Selecciones",      cat:"selecciones",icon:"🇧🇷", price:18500, badge:"",    description:"Canarinha · Temporada 2024"},
-    {id:8,  name:"Francia",             liga:"Selecciones",      cat:"selecciones",icon:"🇫🇷", price:18500, badge:"",    description:"Les Bleus · Mbappé edition"},
-    {id:9,  name:"Real Madrid",         liga:"La Liga",          cat:"europa",     icon:"⭐", price:19000, badge:"new", description:"Champions League 2024 · Blanco"},
-    {id:10, name:"FC Barcelona",        liga:"La Liga",          cat:"europa",     icon:"🔵", price:19000, badge:"",    description:"Temporada 2024/25 · Blaugrana"},
-    {id:11, name:"Manchester City",     liga:"Premier League",   cat:"europa",     icon:"🩵", price:19000, badge:"",    description:"Etihad · Celeste clásico"},
-    {id:12, name:"Manchester United",   liga:"Premier League",   cat:"europa",     icon:"🔴", price:19000, badge:"",    description:"Old Trafford · Rojo diabólico"},
-    {id:13, name:"PSG",                 liga:"Ligue 1",          cat:"europa",     icon:"🗼", price:18000, badge:"",    description:"Paris Saint-Germain 2024/25"},
-    {id:14, name:"Juventus",            liga:"Serie A",          cat:"europa",     icon:"⚫", price:17500, badge:"",    description:"Bianconeri · Clásico a rayas"},
-    {id:15, name:"River Retro 96",      liga:"Retro",            cat:"retro",      icon:"🏆", price:22000, badge:"new", description:"Subcampeón Libertadores 1996"},
-    {id:16, name:"Argentina Retro 86",  liga:"Retro",            cat:"retro",      icon:"🌟", price:25000, badge:"hot", description:"Maradona · México 86 · Mítica"},
-    {id:17, name:"Boca Retro 2000",     liga:"Retro",            cat:"retro",      icon:"🏆", price:22000, badge:"",    description:"Campeón Libertadores 2000"},
-    {id:18, name:"Colombia Retro 94",   liga:"Retro",            cat:"retro",      icon:"🇨🇴", price:20000, badge:"",   description:"Valderrama · USA 94 · Legendaria"},
+    {id:1,  name:"Boca Juniors",        liga:"Liga Profesional", cat:"argentina",   icon:"⚽", price:18000, badge:"hot", description:"Titular 2024/25 · Con detalles dorados"},
+    {id:2,  name:"River Plate",         liga:"Liga Profesional", cat:"argentina",   icon:"🔴", price:18000, badge:"",    description:"Titular 2024/25 · Franja clásica"},
+    {id:3,  name:"Racing Club",         liga:"Liga Profesional", cat:"argentina",   icon:"🔵", price:16500, badge:"new", description:"Campeón Copa Sudamericana 2024"},
+    {id:4,  name:"Independiente",       liga:"Liga Profesional", cat:"argentina",   icon:"🔴", price:15000, badge:"",    description:"Rey de copas · Rojo clásico"},
+    {id:5,  name:"San Lorenzo",         liga:"Liga Profesional", cat:"argentina",   icon:"🔵", price:15000, badge:"",    description:"Titular azulgrana 2024/25"},
+    {id:6,  name:"Selección Argentina", liga:"Selecciones",      cat:"selecciones", icon:"🇦🇷", price:20000, badge:"hot", description:"Campeón del Mundo Qatar 2022"},
+    {id:7,  name:"Brasil",              liga:"Selecciones",      cat:"selecciones", icon:"🇧🇷", price:18500, badge:"",    description:"Canarinha · Temporada 2024"},
+    {id:8,  name:"Francia",             liga:"Selecciones",      cat:"selecciones", icon:"🇫🇷", price:18500, badge:"",    description:"Les Bleus · Mbappé edition"},
+    {id:9,  name:"Real Madrid",         liga:"La Liga",          cat:"europa",      icon:"⭐", price:19000, badge:"new", description:"Champions League 2024 · Blanco"},
+    {id:10, name:"FC Barcelona",        liga:"La Liga",          cat:"europa",      icon:"🔵", price:19000, badge:"",    description:"Temporada 2024/25 · Blaugrana"},
+    {id:11, name:"Manchester City",     liga:"Premier League",   cat:"europa",      icon:"🩵", price:19000, badge:"",    description:"Etihad · Celeste clásico"},
+    {id:12, name:"Manchester United",   liga:"Premier League",   cat:"europa",      icon:"🔴", price:19000, badge:"",    description:"Old Trafford · Rojo diabólico"},
+    {id:13, name:"PSG",                 liga:"Ligue 1",          cat:"europa",      icon:"🗼", price:18000, badge:"",    description:"Paris Saint-Germain 2024/25"},
+    {id:14, name:"Juventus",            liga:"Serie A",          cat:"europa",      icon:"⚫", price:17500, badge:"",    description:"Bianconeri · Clásico a rayas"},
+    {id:15, name:"River Retro 96",      liga:"Retro",            cat:"retro",       icon:"🏆", price:22000, badge:"new", description:"Subcampeón Libertadores 1996"},
+    {id:16, name:"Argentina Retro 86",  liga:"Retro",            cat:"retro",       icon:"🌟", price:25000, badge:"hot", description:"Maradona · México 86 · Mítica"},
+    {id:17, name:"Boca Retro 2000",     liga:"Retro",            cat:"retro",       icon:"🏆", price:22000, badge:"",    description:"Campeón Libertadores 2000"},
+    {id:18, name:"Colombia Retro 94",   liga:"Retro",            cat:"retro",       icon:"🇨🇴", price:20000, badge:"",   description:"Valderrama · USA 94 · Legendaria"},
   ];
 
   // ── STATE ──
@@ -489,10 +667,7 @@
   async function loadProducts() {
     if (db) {
       const { data, error } = await db.from('products').select('*').eq('active', true).order('name');
-      if (!error && data && data.length > 0) {
-        products = data;
-        return;
-      }
+      if (!error && data && data.length > 0) { products = data; return; }
     }
     products = DEFAULT_PRODUCTS;
   }
@@ -510,6 +685,8 @@
         <div class="card-img" onclick="openProductDetail(${p.id})" style="cursor:zoom-in;">
           ${p.badge === 'hot' ? '<span class="badge-hot">🔥 Popular</span>' : p.badge === 'new' ? '<span class="badge-new">✨ Nuevo</span>' : ''}
           ${p.image ? `<img src="${p.image}" alt="${p.name}"/>` : `<span style="font-size:72px">${p.icon}</span>`}
+          <div class="card-overlay"></div>
+          <div class="zoom-hint">🔍 Ver detalle</div>
         </div>
         <div class="card-body">
           <div class="card-liga">${p.liga}</div>
@@ -536,79 +713,52 @@
   function openProductDetail(productId) {
     const p = products.find(x => x.id === productId);
     if (!p) return;
-    pendingProduct = p;
-    detailSelectedSize = null;
-    selectedSize = null;
-
+    pendingProduct = p; detailSelectedSize = null; selectedSize = null;
     document.getElementById('detailLigaLabel').textContent = p.liga;
     document.getElementById('detailProdName').textContent = p.name;
     document.getElementById('detailProdDesc').textContent = p.description || '';
     document.getElementById('detailProdPrice').innerHTML = `$${p.price.toLocaleString('es-AR')} <span>ARS</span>`;
-
     const badgeEl = document.getElementById('detailBadgeTag');
     if (p.badge === 'hot') badgeEl.innerHTML = '<span class="badge-hot" style="position:static;display:inline-block;margin-bottom:6px;">🔥 Popular</span>';
     else if (p.badge === 'new') badgeEl.innerHTML = '<span class="badge-new" style="position:static;display:inline-block;margin-bottom:6px;">✨ Nuevo</span>';
     else badgeEl.innerHTML = '';
-
     const imgEl = document.getElementById('detailImg');
     const iconEl = document.getElementById('detailFallbackIcon');
-    if (p.image) {
-      imgEl.src = p.image; imgEl.alt = p.name;
-      imgEl.style.display = 'block'; iconEl.style.display = 'none';
-    } else {
-      imgEl.style.display = 'none';
-      iconEl.textContent = p.icon; iconEl.style.display = 'block';
-    }
-
-    document.getElementById('detailSizes').innerHTML = sizes.map(s =>
-      `<button class="size-opt" onclick="selectDetailSize('${s}', this)">${s}</button>`
-    ).join('');
-
+    if (p.image) { imgEl.src = p.image; imgEl.alt = p.name; imgEl.style.display = 'block'; iconEl.style.display = 'none'; }
+    else { imgEl.style.display = 'none'; iconEl.textContent = p.icon; iconEl.style.display = 'block'; }
+    document.getElementById('detailSizes').innerHTML = sizes.map(s => `<button class="size-opt" onclick="selectDetailSize('${s}', this)">${s}</button>`).join('');
     document.getElementById('detailOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-
   function selectDetailSize(size, btn) {
-    detailSelectedSize = size;
-    selectedSize = size;
+    detailSelectedSize = size; selectedSize = size;
     document.querySelectorAll('#detailSizes .size-opt').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
   }
-
-  function closeDetailModal() {
-    document.getElementById('detailOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function handleDetailBgClick(e) {
-    if (e.target === document.getElementById('detailOverlay')) closeDetailModal();
-  }
-
+  function closeDetailModal() { document.getElementById('detailOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+  function handleDetailBgClick(e) { if (e.target === document.getElementById('detailOverlay')) closeDetailModal(); }
   function openFullImage() {
     const src = document.getElementById('detailImg').src;
     if (!src || document.getElementById('detailImg').style.display === 'none') return;
     window.open(src, '_blank');
   }
-
   function confirmAddFromDetail() {
     if (!detailSelectedSize) { alert('Seleccioná un talle primero ✋'); return; }
     addToCart(pendingProduct, detailSelectedSize);
     closeDetailModal();
   }
 
-  // ── MODAL ──
+  // ── SIZE MODAL ──
   function openModal(productId) {
     pendingProduct = products.find(p => p.id === productId);
     selectedSize = null;
     document.getElementById('modalProductName').textContent = pendingProduct.name;
-    document.getElementById('modalSizes').innerHTML = sizes.map(s =>
-      `<button class="size-opt" onclick="selectSize('${s}', this)">${s}</button>`
-    ).join('');
+    document.getElementById('modalSizes').innerHTML = sizes.map(s => `<button class="size-opt" onclick="selectSize('${s}', this)">${s}</button>`).join('');
     document.getElementById('modalOverlay').classList.add('open');
   }
   function selectSize(size, btn) {
     selectedSize = size;
-    document.querySelectorAll('.size-opt').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('#modalSizes .size-opt').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
   }
   function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
@@ -627,13 +777,11 @@
     updateCartUI();
     showToast(`${product.icon} ${product.name} (${size}) agregado`);
   }
-
   function updateCartUI() {
     const total = cart.reduce((s, i) => s + i.product.price * i.qty, 0);
     const count = cart.reduce((s, i) => s + i.qty, 0);
     const badge = document.getElementById('cartCount');
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'flex' : 'none';
+    badge.textContent = count; badge.style.display = count > 0 ? 'flex' : 'none';
     const container = document.getElementById('cartItems');
     const footer = document.getElementById('cartFooter');
     if (cart.length === 0) {
@@ -642,9 +790,7 @@
     } else {
       container.innerHTML = cart.map((item, idx) => `
         <div class="cart-item">
-          ${item.product.image
-            ? `<img src="${item.product.image}" class="cart-item-img"/>`
-            : `<div class="cart-item-icon">${item.product.icon}</div>`}
+          ${item.product.image ? `<img src="${item.product.image}" class="cart-item-img"/>` : `<div class="cart-item-icon">${item.product.icon}</div>`}
           <div class="cart-item-info">
             <div class="cart-item-name">${item.product.name}</div>
             <div class="cart-item-meta">Talle ${item.size} · <span class="cart-item-price">$${item.product.price.toLocaleString('es-AR')}</span></div>
@@ -661,44 +807,24 @@
       document.getElementById('cartTotal').textContent = `$${total.toLocaleString('es-AR')} ARS`;
     }
   }
-
-  function changeQty(idx, delta) {
-    cart[idx].qty += delta;
-    if (cart[idx].qty <= 0) cart.splice(idx, 1);
-    updateCartUI();
-  }
+  function changeQty(idx, delta) { cart[idx].qty += delta; if (cart[idx].qty <= 0) cart.splice(idx, 1); updateCartUI(); }
   function removeItem(idx) { cart.splice(idx, 1); updateCartUI(); }
   function toggleCart() {
     document.getElementById('cartDrawer').classList.toggle('open');
     document.getElementById('overlay').classList.toggle('open');
   }
 
-  // ── WHATSAPP + GUARDAR EN SUPABASE ──
+  // ── WHATSAPP ──
   async function sendToWhatsApp() {
     if (cart.length === 0) return;
     const total = cart.reduce((s, i) => s + i.product.price * i.qty, 0);
     if (db) {
       try {
-        await db.from('orders').insert([{
-          customer: '',
-          status: 'pendiente',
-          notes: 'Pedido desde la tienda web',
-          items: cart.map(item => ({
-            productId: item.product.id,
-            productName: item.product.name,
-            productIcon: item.product.icon,
-            size: item.size,
-            qty: item.qty,
-            price: item.product.price
-          })),
-          total
-        }]);
-      } catch(e) { /* falla silenciosamente */ }
+        await db.from('orders').insert([{ customer: '', status: 'pendiente', notes: 'Pedido desde la tienda web', items: cart.map(item => ({ productId: item.product.id, productName: item.product.name, productIcon: item.product.icon, size: item.size, qty: item.qty, price: item.product.price })), total }]);
+      } catch(e) {}
     }
     let msg = "👋 Hola! Quiero hacer un pedido en *wing.back*:\n\n";
-    cart.forEach(item => {
-      msg += `${item.product.icon} *${item.product.name}* — Talle ${item.size} x${item.qty} = $${(item.product.price * item.qty).toLocaleString('es-AR')}\n`;
-    });
+    cart.forEach(item => { msg += `${item.product.icon} *${item.product.name}* — Talle ${item.size} x${item.qty} = $${(item.product.price * item.qty).toLocaleString('es-AR')}\n`; });
     msg += `\n💰 *Total: $${total.toLocaleString('es-AR')} ARS*\n\n¿Cómo procedo con el pago? 🙌`;
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
   }
