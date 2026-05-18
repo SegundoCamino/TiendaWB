@@ -320,6 +320,7 @@
     .float-wsp:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 10px 32px rgba(37,211,102,.55); }
     .float-wsp svg { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
     @keyframes wspPulse { 0%,100%{ box-shadow: 0 6px 24px rgba(37,211,102,.4); } 50%{ box-shadow: 0 6px 30px rgba(37,211,102,.65); } }
+    body.cart-open .float-wsp { opacity: 0; pointer-events: none; transform: scale(.85); }
 
     /* ── TOAST ── */
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); border: 1px solid var(--accent); color: var(--text); padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 14px; z-index: 600; transition: transform .3s; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.5); }
@@ -812,6 +813,7 @@
   function toggleCart() {
     document.getElementById('cartDrawer').classList.toggle('open');
     document.getElementById('overlay').classList.toggle('open');
+    document.body.classList.toggle('cart-open');
   }
 
   // ── WHATSAPP ──
