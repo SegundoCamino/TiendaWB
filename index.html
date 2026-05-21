@@ -65,7 +65,8 @@
     .carousel { position: relative; overflow: hidden; height: clamp(360px, 55vw, 560px); }
     .carousel-track { display: flex; height: 100%; transition: transform .7s cubic-bezier(.77,0,.175,1); }
     .slide { min-width: 100%; height: 100%; display: flex; align-items: center; position: relative; overflow: hidden; }
-    .slide-1 { background: linear-gradient(135deg, #0a0a0a 0%, #1a0e00 45%, #0a0a0a 100%); }
+    .slide-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .55; z-index: 0; }
+    .slide-1 { background: #060810; }
     .slide-2 { background: linear-gradient(135deg, #001433 0%, #002a5e 45%, #001433 100%); }
     .slide-3 { background: linear-gradient(135deg, #0a0000 0%, #1c0000 45%, #0a0a0a 100%); }
     .slide-4 { background: linear-gradient(135deg, #001a00 0%, #00260a 45%, #0a0a0a 100%); }
@@ -202,8 +203,12 @@
 
     /* ── WHY US ── */
     .why-section { background: var(--surface); border-top: 1px solid var(--border); padding: 64px 24px; }
-    .why-inner { max-width: 1200px; margin: 0 auto; }
-    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 36px; }
+    .why-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 420px; gap: 56px; align-items: center; }
+    .why-inner .section-header { grid-column: 1 / -1; }
+    .why-img-col { position: relative; }
+    .why-img-col img { width: 100%; border-radius: 18px; object-fit: cover; box-shadow: 0 12px 48px rgba(0,0,0,.5); display: block; }
+    .why-img-badge { position: absolute; bottom: 16px; left: 16px; background: var(--accent); color: #111; font-weight: 800; font-size: 13px; padding: 7px 14px; border-radius: 8px; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 0; }
     .why-item { background: var(--surface2); padding: 30px 24px; border: 1px solid var(--border); transition: background .2s; }
     .why-item:hover { background: #222; }
     .why-icon { font-size: 30px; margin-bottom: 12px; }
@@ -338,6 +343,9 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .footer-inner { grid-template-columns: 1fr 1fr; }
+      .why-inner { grid-template-columns: 1fr; }
+      .why-inner .section-header { grid-column: 1; }
+      .why-img-col { order: -1; }
     }
     @media (max-width: 768px) {
       .features-inner { flex-direction: column; }
@@ -401,6 +409,7 @@
   <div class="carousel-track" id="carouselTrack">
 
     <div class="slide slide-1">
+      <img src="tunel.png" class="slide-bg-img" alt="Wingback Ind"/>
       <div class="slide-deco">WB</div>
       <div class="slide-content">
         <div class="slide-tag">⚽ Nueva colección 2025/26</div>
@@ -514,6 +523,10 @@
       <div class="why-item"><div class="why-icon">🚚</div><div class="why-title">Envío a todo el país</div><div class="why-desc">Despachamos por Correo Argentino y Andreani. Seguí tu paquete en tiempo real.</div></div>
       <div class="why-item"><div class="why-icon">💬</div><div class="why-title">Atención por WhatsApp</div><div class="why-desc">Respondemos rápido, asesoramos en talles, colores y disponibilidad.</div></div>
       <div class="why-item"><div class="why-icon">🔄</div><div class="why-title">Cambios sin problema</div><div class="why-desc">Si el talle no te queda, lo cambiamos. Sin burocracia, sin vueltas.</div></div>
+    </div>
+    <div class="why-img-col">
+      <img src="camisetas.png" alt="Camisetas Wing.Back"/>
+      <div class="why-img-badge">⚽ Nuevos modelos 2025</div>
     </div>
   </div>
 </div>
