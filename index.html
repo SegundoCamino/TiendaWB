@@ -44,6 +44,7 @@
       padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 70px;
     }
     .logo { display: flex; align-items: center; gap: 13px; text-decoration: none; color: var(--text); }
+    .logo-img { height: 52px; width: auto; border-radius: 8px; object-fit: contain; }
     .logo-badge {
       width: 40px; height: 40px; border-radius: 8px; background: var(--accent);
       display: flex; align-items: center; justify-content: center;
@@ -80,6 +81,7 @@
     .carousel { position: relative; overflow: hidden; height: clamp(380px, 58vw, 580px); }
     .carousel-track { display: flex; height: 100%; transition: transform .75s cubic-bezier(.77,0,.175,1); }
     .slide { min-width: 100%; height: 100%; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .slide-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .5; z-index: 0; }
     .slide-1 { background: radial-gradient(ellipse 80% 110% at 68% 50%, #1c1000 0%, #080808 72%); }
     .slide-2 { background: radial-gradient(ellipse 80% 110% at 68% 50%, #001535 0%, #080808 72%); }
     .slide-3 { background: radial-gradient(ellipse 80% 110% at 68% 50%, #1e0000 0%, #080808 72%); }
@@ -174,8 +176,10 @@
     .feature-text span { font-size: 12px; color: var(--muted); }
 
     /* ── FILTERS ── */
-    .filters-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 24px 16px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .filters-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 24px 6px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .filters-wrap2 { max-width: 1200px; margin: 0 auto; padding: 6px 24px 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
     .filter-label { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-right: 6px; }
+    .filter-divider { width: 1px; height: 22px; background: var(--border); margin: 0 4px; }
     .filter-btn {
       background: transparent; border: 1px solid var(--border);
       color: var(--muted); padding: 6px 16px; border-radius: 4px;
@@ -183,6 +187,17 @@
     }
     .filter-btn:hover { color: var(--text); border-color: var(--border2); }
     .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #080808; }
+    .filter-btn.size-btn { padding: 7px 14px; min-width: 44px; text-align: center; }
+    .sort-select {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); padding: 6px 14px; border-radius: 4px;
+      cursor: pointer; font-size: 12px; font-weight: 600; font-family: var(--font-body);
+      outline: none; transition: all .2s; appearance: none;
+      padding-right: 28px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+    }
+    .sort-select:hover { border-color: var(--border2); color: var(--text); }
 
     /* ── GRID ── */
     .section { max-width: 1200px; margin: 0 auto; padding: 36px 24px 80px; }
@@ -272,19 +287,23 @@
 
     /* ── WHY US ── */
     .why-section { background: var(--surface); border-top: 1px solid var(--border); padding: 72px 24px; }
-    .why-inner { max-width: 1200px; margin: 0 auto; }
+    .why-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 420px; gap: 56px; align-items: center; }
+    .why-inner .section-header { grid-column: 1 / -1; }
+    .why-img-col { position: relative; }
+    .why-img-col img { width: 100%; border-radius: 18px; object-fit: cover; box-shadow: 0 12px 48px rgba(0,0,0,.5); display: block; }
+    .why-img-badge { position: absolute; bottom: 16px; left: 16px; background: var(--accent); color: #080808; font-weight: 800; font-size: 13px; padding: 7px 14px; border-radius: 6px; }
     .why-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
       gap: 1px; background: var(--border); border-radius: 14px; overflow: hidden;
-      border: 1px solid var(--border); margin-top: 40px;
+      border: 1px solid var(--border); margin-top: 0;
     }
-    .why-item { background: var(--surface2); padding: 36px 28px; transition: background .2s; position: relative; }
+    .why-item { background: var(--surface2); padding: 32px 26px; transition: background .2s; position: relative; }
     .why-item:hover { background: var(--surface3); }
     .why-num {
-      font-family: var(--font-display); font-size: 58px; font-weight: 400;
-      color: rgba(245,197,24,.1); line-height: 1; margin-bottom: 14px; letter-spacing: -1px;
+      font-family: var(--font-display); font-size: 52px; font-weight: 400;
+      color: rgba(245,197,24,.1); line-height: 1; margin-bottom: 12px; letter-spacing: -1px;
     }
-    .why-icon { font-size: 24px; margin-bottom: 12px; }
+    .why-icon { font-size: 24px; margin-bottom: 10px; }
     .why-title { font-family: var(--font-heading); font-size: 17px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
     .why-desc { color: var(--muted); font-size: 13px; line-height: 1.65; }
 
@@ -396,8 +415,8 @@
       letter-spacing: -4px; user-select: none;
     }
     .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; position: relative; z-index: 1; }
-    .footer-logo { font-family: var(--font-display); font-size: 28px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
-    .footer-logo span { color: var(--accent); }
+    .footer-logo { margin-bottom: 12px; }
+    .footer-logo img { height: 56px; width: auto; border-radius: 8px; object-fit: contain; }
     .footer-brand p { color: var(--muted); font-size: 13px; line-height: 1.7; max-width: 220px; }
     .footer-col h4 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 16px; }
     .footer-col a { display: block; color: var(--text2); text-decoration: none; font-size: 14px; margin-bottom: 10px; transition: color .2s; }
@@ -429,7 +448,12 @@
     .toast.show { transform: translateX(-50%) translateY(0); }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 900px) {
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .why-inner { grid-template-columns: 1fr; }
+      .why-inner .section-header { grid-column: 1; }
+      .why-img-col { order: -1; }
+    }
     @media (max-width: 768px) {
       .features-inner { flex-direction: column; }
       .feature-item { border-right: none; border-bottom: 1px solid var(--border); padding: 14px 18px; }
@@ -472,8 +496,7 @@
 
 <header>
   <a href="#" class="logo">
-    <div class="logo-badge">WB</div>
-    <span class="logo-text">wing<span>.</span>back</span>
+    <img src="logo.jpeg" alt="Wing.Back" class="logo-img" />
   </a>
   <nav>
     <a href="#catalogo">Catálogo</a>
@@ -496,6 +519,7 @@
   <div class="carousel-track" id="carouselTrack">
 
     <div class="slide slide-1">
+      <img src="tunel.png" class="slide-bg-img" alt="Wingback Ind"/>
       <div class="slide-deco">WB</div>
       <div class="slide-content">
         <div class="slide-tag">⚽ Nueva colección 2025/26</div>
@@ -565,12 +589,28 @@
 
 <!-- CATALOG -->
 <div class="filters-wrap" id="catalogo">
-  <span class="filter-label">Filtrar:</span>
+  <span class="filter-label">Categoría:</span>
   <button class="filter-btn active" id="filter-todos" onclick="filterProducts('todos', this)">Todos</button>
   <button class="filter-btn" id="filter-argentina" onclick="filterProducts('argentina', this)">🇦🇷 Argentina</button>
   <button class="filter-btn" id="filter-europa" onclick="filterProducts('europa', this)">🌍 Europa</button>
   <button class="filter-btn" id="filter-retro" onclick="filterProducts('retro', this)">⏪ Retro</button>
   <button class="filter-btn" id="filter-selecciones" onclick="filterProducts('selecciones', this)">🏆 Selecciones</button>
+</div>
+<div class="filters-wrap2">
+  <span class="filter-label">Talle:</span>
+  <button class="filter-btn size-btn active" id="size-todos" onclick="filterSize('todos', this)">Todos</button>
+  <button class="filter-btn size-btn" id="size-S" onclick="filterSize('S', this)">S</button>
+  <button class="filter-btn size-btn" id="size-M" onclick="filterSize('M', this)">M</button>
+  <button class="filter-btn size-btn" id="size-L" onclick="filterSize('L', this)">L</button>
+  <button class="filter-btn size-btn" id="size-XL" onclick="filterSize('XL', this)">XL</button>
+  <button class="filter-btn size-btn" id="size-XXL" onclick="filterSize('XXL', this)">XXL</button>
+  <div class="filter-divider"></div>
+  <span class="filter-label">Precio:</span>
+  <select class="sort-select" id="sortSelect" onchange="sortProducts(this.value)">
+    <option value="default">Por defecto</option>
+    <option value="asc">Menor a mayor</option>
+    <option value="desc">Mayor a menor</option>
+  </select>
 </div>
 
 <div class="section">
@@ -594,6 +634,10 @@
       <div class="why-item"><div class="why-num">03</div><div class="why-icon">💬</div><div class="why-title">Atención por WhatsApp</div><div class="why-desc">Respondemos rápido, asesoramos en talles, colores y disponibilidad.</div></div>
       <div class="why-item"><div class="why-num">04</div><div class="why-icon">🔄</div><div class="why-title">Cambios sin problema</div><div class="why-desc">Si el talle no te queda, lo cambiamos. Sin burocracia, sin vueltas.</div></div>
     </div>
+    <div class="why-img-col">
+      <img src="camisetas.png" alt="Camisetas Wing.Back"/>
+      <div class="why-img-badge">⚽ Nuevos modelos 2025</div>
+    </div>
   </div>
 </div>
 
@@ -608,7 +652,7 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <div class="footer-logo">wing<span>.</span>back</div>
+      <div class="footer-logo"><img src="logo.jpeg" alt="Wing.Back" /></div>
       <p>Camisetas de fútbol premium. Nacionales, internacionales y retros. Enviamos a todo el país.</p>
     </div>
     <div class="footer-col">
@@ -740,24 +784,24 @@
 
   // ── DEFAULT PRODUCTS ──
   const DEFAULT_PRODUCTS = [
-    {id:1,  name:"Boca Juniors",        liga:"Liga Profesional", cat:"argentina",   icon:"⚽", price:18000, badge:"hot", description:"Titular 2024/25 · Con detalles dorados"},
-    {id:2,  name:"River Plate",         liga:"Liga Profesional", cat:"argentina",   icon:"🔴", price:18000, badge:"",    description:"Titular 2024/25 · Franja clásica"},
-    {id:3,  name:"Racing Club",         liga:"Liga Profesional", cat:"argentina",   icon:"🔵", price:16500, badge:"new", description:"Campeón Copa Sudamericana 2024"},
-    {id:4,  name:"Independiente",       liga:"Liga Profesional", cat:"argentina",   icon:"🔴", price:15000, badge:"",    description:"Rey de copas · Rojo clásico"},
-    {id:5,  name:"San Lorenzo",         liga:"Liga Profesional", cat:"argentina",   icon:"🔵", price:15000, badge:"",    description:"Titular azulgrana 2024/25"},
-    {id:6,  name:"Selección Argentina", liga:"Selecciones",      cat:"selecciones", icon:"🇦🇷", price:20000, badge:"hot", description:"Campeón del Mundo Qatar 2022"},
-    {id:7,  name:"Brasil",              liga:"Selecciones",      cat:"selecciones", icon:"🇧🇷", price:18500, badge:"",    description:"Canarinha · Temporada 2024"},
-    {id:8,  name:"Francia",             liga:"Selecciones",      cat:"selecciones", icon:"🇫🇷", price:18500, badge:"",    description:"Les Bleus · Mbappé edition"},
-    {id:9,  name:"Real Madrid",         liga:"La Liga",          cat:"europa",      icon:"⭐", price:19000, badge:"new", description:"Champions League 2024 · Blanco"},
-    {id:10, name:"FC Barcelona",        liga:"La Liga",          cat:"europa",      icon:"🔵", price:19000, badge:"",    description:"Temporada 2024/25 · Blaugrana"},
-    {id:11, name:"Manchester City",     liga:"Premier League",   cat:"europa",      icon:"🩵", price:19000, badge:"",    description:"Etihad · Celeste clásico"},
-    {id:12, name:"Manchester United",   liga:"Premier League",   cat:"europa",      icon:"🔴", price:19000, badge:"",    description:"Old Trafford · Rojo diabólico"},
-    {id:13, name:"PSG",                 liga:"Ligue 1",          cat:"europa",      icon:"🗼", price:18000, badge:"",    description:"Paris Saint-Germain 2024/25"},
-    {id:14, name:"Juventus",            liga:"Serie A",          cat:"europa",      icon:"⚫", price:17500, badge:"",    description:"Bianconeri · Clásico a rayas"},
-    {id:15, name:"River Retro 96",      liga:"Retro",            cat:"retro",       icon:"🏆", price:22000, badge:"new", description:"Subcampeón Libertadores 1996"},
-    {id:16, name:"Argentina Retro 86",  liga:"Retro",            cat:"retro",       icon:"🌟", price:25000, badge:"hot", description:"Maradona · México 86 · Mítica"},
-    {id:17, name:"Boca Retro 2000",     liga:"Retro",            cat:"retro",       icon:"🏆", price:22000, badge:"",    description:"Campeón Libertadores 2000"},
-    {id:18, name:"Colombia Retro 94",   liga:"Retro",            cat:"retro",       icon:"🇨🇴", price:20000, badge:"",   description:"Valderrama · USA 94 · Legendaria"},
+    {id:1,  name:"Boca Juniors",        liga:"Liga Profesional", cat:"argentina",   icon:"⚽", price:18000, badge:"hot", description:"Titular 2024/25 · Con detalles dorados", sizes:["S","M","L","XL","XXL"]},
+    {id:2,  name:"River Plate",         liga:"Liga Profesional", cat:"argentina",   icon:"🔴", price:18000, badge:"",    description:"Titular 2024/25 · Franja clásica",       sizes:["S","M","L","XL","XXL"]},
+    {id:3,  name:"Racing Club",         liga:"Liga Profesional", cat:"argentina",   icon:"🔵", price:16500, badge:"new", description:"Campeón Copa Sudamericana 2024",          sizes:["M","L","XL","XXL"]},
+    {id:4,  name:"Independiente",       liga:"Liga Profesional", cat:"argentina",   icon:"🔴", price:15000, badge:"",    description:"Rey de copas · Rojo clásico",             sizes:["S","M","L","XL"]},
+    {id:5,  name:"San Lorenzo",         liga:"Liga Profesional", cat:"argentina",   icon:"🔵", price:15000, badge:"",    description:"Titular azulgrana 2024/25",               sizes:["M","L","XL","XXL"]},
+    {id:6,  name:"Selección Argentina", liga:"Selecciones",      cat:"selecciones", icon:"🇦🇷", price:20000, badge:"hot", description:"Campeón del Mundo Qatar 2022",           sizes:["S","M","L","XL","XXL"]},
+    {id:7,  name:"Brasil",              liga:"Selecciones",      cat:"selecciones", icon:"🇧🇷", price:18500, badge:"",    description:"Canarinha · Temporada 2024",              sizes:["S","M","L","XL","XXL"]},
+    {id:8,  name:"Francia",             liga:"Selecciones",      cat:"selecciones", icon:"🇫🇷", price:18500, badge:"",    description:"Les Bleus · Mbappé edition",              sizes:["M","L","XL"]},
+    {id:9,  name:"Real Madrid",         liga:"La Liga",          cat:"europa",      icon:"⭐", price:19000, badge:"new", description:"Champions League 2024 · Blanco",           sizes:["S","M","L","XL","XXL"]},
+    {id:10, name:"FC Barcelona",        liga:"La Liga",          cat:"europa",      icon:"🔵", price:19000, badge:"",    description:"Temporada 2024/25 · Blaugrana",           sizes:["S","M","L","XL","XXL"]},
+    {id:11, name:"Manchester City",     liga:"Premier League",   cat:"europa",      icon:"🩵", price:19000, badge:"",    description:"Etihad · Celeste clásico",                sizes:["M","L","XL","XXL"]},
+    {id:12, name:"Manchester United",   liga:"Premier League",   cat:"europa",      icon:"🔴", price:19000, badge:"",    description:"Old Trafford · Rojo diabólico",           sizes:["S","M","L","XL"]},
+    {id:13, name:"PSG",                 liga:"Ligue 1",          cat:"europa",      icon:"🗼", price:18000, badge:"",    description:"Paris Saint-Germain 2024/25",             sizes:["M","L","XL","XXL"]},
+    {id:14, name:"Juventus",            liga:"Serie A",          cat:"europa",      icon:"⚫", price:17500, badge:"",    description:"Bianconeri · Clásico a rayas",             sizes:["S","M","L","XL"]},
+    {id:15, name:"River Retro 96",      liga:"Retro",            cat:"retro",       icon:"🏆", price:22000, badge:"new", description:"Subcampeón Libertadores 1996",             sizes:["S","M","L","XL","XXL"]},
+    {id:16, name:"Argentina Retro 86",  liga:"Retro",            cat:"retro",       icon:"🌟", price:25000, badge:"hot", description:"Maradona · México 86 · Mítica",            sizes:["S","M","L","XL","XXL"]},
+    {id:17, name:"Boca Retro 2000",     liga:"Retro",            cat:"retro",       icon:"🏆", price:22000, badge:"",    description:"Campeón Libertadores 2000",               sizes:["M","L","XL","XXL"]},
+    {id:18, name:"Colombia Retro 94",   liga:"Retro",            cat:"retro",       icon:"🇨🇴", price:20000, badge:"",   description:"Valderrama · USA 94 · Legendaria",        sizes:["S","M","L","XL"]},
   ];
 
   // ── STATE ──
@@ -767,6 +811,8 @@
   let pendingProduct = null;
   let selectedSize = null;
   let currentFilter = 'todos';
+  let currentSize = 'todos';
+  let currentSort = 'default';
 
   // ── LOAD PRODUCTS ──
   async function loadProducts() {
@@ -780,9 +826,12 @@
   // ── RENDER ──
   function renderProducts(filter) {
     const grid = document.getElementById('productGrid');
-    const list = filter === 'todos' ? products : products.filter(p => p.cat === filter);
+    let list = filter === 'todos' ? [...products] : products.filter(p => p.cat === filter);
+    if (currentSize !== 'todos') list = list.filter(p => (p.sizes || sizes).includes(currentSize));
+    if (currentSort === 'asc') list.sort((a,b) => a.price - b.price);
+    else if (currentSort === 'desc') list.sort((a,b) => b.price - a.price);
     if (list.length === 0) {
-      grid.innerHTML = '<div style="color:var(--muted);text-align:center;padding:40px;grid-column:1/-1;">No hay productos en esta categoría.</div>';
+      grid.innerHTML = '<div style="color:var(--muted);text-align:center;padding:40px;grid-column:1/-1;">No hay productos con ese filtro.</div>';
       return;
     }
     grid.innerHTML = list.map(p => `
@@ -807,9 +856,19 @@
 
   function filterProducts(cat, btn) {
     currentFilter = cat;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filters-wrap .filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderProducts(cat);
+  }
+  function filterSize(size, btn) {
+    currentSize = size;
+    document.querySelectorAll('.filters-wrap2 .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(currentFilter);
+  }
+  function sortProducts(val) {
+    currentSort = val;
+    renderProducts(currentFilter);
   }
 
   // ── PRODUCT DETAIL MODAL ──
@@ -842,9 +901,16 @@
   function closeDetailModal() { document.getElementById('detailOverlay').classList.remove('open'); document.body.style.overflow = ''; }
   function handleDetailBgClick(e) { if (e.target === document.getElementById('detailOverlay')) closeDetailModal(); }
   function openFullImage() {
-    const src = document.getElementById('detailImg').src;
-    if (!src || document.getElementById('detailImg').style.display === 'none') return;
-    window.open(src, '_blank');
+    const img = document.getElementById('detailImg');
+    if (!img || img.style.display === 'none' || !img.src || img.src === window.location.href) return;
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightboxImg').src = img.src;
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+    document.body.style.overflow = '';
   }
   function confirmAddFromDetail() {
     if (!detailSelectedSize) { alert('Seleccioná un talle primero ✋'); return; }
@@ -949,5 +1015,11 @@
   }
   init();
 </script>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);align-items:center;justify-content:center;cursor:zoom-out;">
+  <img id="lightboxImg" src="" alt="" style="max-width:92vw;max-height:92vh;object-fit:contain;border-radius:10px;box-shadow:0 8px 48px rgba(0,0,0,.7);" onclick="event.stopPropagation()"/>
+  <button onclick="closeLightbox()" style="position:absolute;top:18px;right:22px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;">✕</button>
+</div>
 </body>
 </html>
